@@ -1,0 +1,70 @@
+---
+title: "exam practice"
+author: "NDM"
+date: "August 2, 2017"
+output: html_document
+---
+
+```{r question 1, echo=TRUE}
+
+library(dplyr)
+library(readr)
+library(tidyr)
+library(plyr)# arrange
+library(readr)
+library(base)
+library(stats)
+
+
+question1 <- read_csv("C:/Users/LORD DANNICUS/Desktop/stats exam/question1.csv")
+View(question1)
+
+df <- question1
+
+#regression of 2 variables
+#male HR vs BT
+df2 <- df[,-(3),drop = FALSE] #drop columns
+
+df3 <- df2[order(df2$male),c(1,2)] #sort by male HR
+print.data.frame(df3)
+
+df4 <- df3[-c(66:130),]#REMOVE ROWS WITH na
+print.data.frame(df4)
+
+#female HR vs BT
+
+v1 <- df[,-(2), drop = FALSE]#column for males is removed
+v1
+
+v2 <- v1[order(v1$female),c(1,2)]#Data now arranged accoding to females in order to remove rows with NA's
+v2
+
+v3 <- v2[-c(66:130),]#BT with NA HR data omited 
+v3
+
+#Given we have 2 groups with small sample size we can use an unpaired t-test.
+#data needs to be tidies up accordingly as we can compare BT between males and females as well as HR between males and females. So is there any relationship between HR and BT between the sexes?
+
+utt <-df[,-1, drop = FALSE]
+utt
+
+utt1 <- as.data.frame(lapply(utt, na.omit))
+print.data.frame(utt1)
+
+utt2 <- gather(utt1, "gender", "HR", male:female)
+
+t.test(HR~gender, data = utt2, paired = FALSE)
+
+
+utt3 <-gather(df, "BT", "gender", body_temperature:female)
+
+print.data.frame(utt3)
+
+utt4 <- utt3[-c(131:390),]
+print.data.frame(utt4)
+
+utt5 <- apply(utt4,1, function(c) t.test(c(1:65),c(66:130), paired = FALSE))
+
+utt5
+```
+

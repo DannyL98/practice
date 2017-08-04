@@ -1,0 +1,203 @@
+---
+title: "Exam 2016"
+output: html_document
+---
+
+The following will be performed for each question: 
+
+a) Tidy the datasets (if required);
+b) Generate summary statistics and exploratory figures/tables to characterise the data;
+c) Undertake hypothesis testing. In each case, you must clearly state the:
+   Hypothesis being tested;
+   Type of data being analysed;
+   Statistical test(s) chosen to assess the hypothesis/hypotheses;
+   The assumptions of the test(s);
+d) Core information describing the output of the statistical test(s);
+e) Conclusions you can draw from the analysis.
+f) Use your analysis to answer the posed question (where appropriate)
+
+The following are packages that could be used for data analysis:
+
+library(readr)
+library(ggplot2)
+library(favstats)
+library(tidyr)
+library(tidyverse)
+library(readr)
+library(mosaic)
+library(lattice)
+library(datasets)
+library(Matrix)
+library(mosaicData)
+library(dplyr)
+library(stats)
+library(base)
+library(datasets)
+library(likert)
+
+
+
+Question 1
+```{r Question 1a, echo=TRUE}
+
+library(stats)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(dplyr)
+
+
+library(readr)
+question1a <- read_csv("C:/Users/LORD DANNICUS/Desktop/stats exam/question1a.csv")
+View(question1a)
+
+bt <- question1a
+bt
+summary(bt)
+
+boxplot(bt)
+bt1 <- gather(bt, 'body_temperature', 'value', body_temperature_male:body_temperature_female)
+
+print.data.frame(bt1)
+
+t.test(value~body_temperature, data = bt1, paired = FALSE)
+
+wilcox.test(value~body_temperature, data = bt1, paired = FALSE)
+```
+
+```{r question1b, echo=TRUE}
+
+library(readxl)
+question1b <- read_excel("C:/Users/LORD DANNICUS/Desktop/stats exam/question1b.xlsx")
+View(question1b)
+
+hr <- question1b
+hr
+summary(hr)
+boxplot(hr)
+
+hr1 <- gather(hr, 'heart_rate', 'value', male_HR:female_HR)
+
+t.test(value~heart_rate, data = hr1, paired = FALSE)
+
+
+```
+
+
+
+```{r Question2, echo=TRUE}
+library(readr)
+library(dplyr)
+library(tidyr)
+
+library(readr)
+question2a <- read_csv("C:/Users/LORD DANNICUS/Desktop/stats exam/question2a.csv")
+View(question2a)
+
+df <- question2a
+df
+
+dfa <- table(df$handedness, df$first_stumble)
+
+dfa
+
+barplot(dfa)
+
+chisq.test(dfa)
+```
+
+
+```{r question2b}
+
+library(readxl)
+question2b <- read_excel("C:/Users/LORD DANNICUS/Desktop/stats exam/question2b.xlsx")
+View(question2b)
+
+ab <-question2b
+ab
+
+aba <- gather(ab, 'data','direction', handedness:final_position)
+
+aba
+
+abb <- xtabs(~direction+data, data = aba)
+abb
+
+
+fisher.test(abb)
+
+barplot(abb)
+
+
+
+  
+```
+
+
+```{r Question3, echo=TRUE}
+library(readr)
+library(dplyr)
+library(stats)
+library(ggplot2)
+library(readr)
+library(mosaic)
+library(lattice)
+library(datasets)
+library(Matrix)
+library(mosaicData)
+
+#a)
+question3 <- read_csv("C:/Users/LORD DANNICUS/Desktop/stats exam/question3.csv")
+
+ex <- question3
+
+print(question3)
+
+ex1 <- group_by(ex,time)
+
+print(ex1)
+
+#b)
+
+summary.data.frame(ex1)
+
+coef(lm(calories ~ time, data = ex1))
+
+p <- ggplot(ex1, aes(time, calories))+ geom_point() + labs(title = "Time vs calories consumed") 
+
+p + geom_smooth(method = "lm", se = FALSE)
+
+#c)
+    #Hypothesis being tested: There is a relationship between time spent running and caloroes consumed.
+
+   #Type of data being analysed: The type of data being compared here are continuous data.
+
+   #Statistical test(s) chosen to assess the hypothesis/hypotheses: Linear Regression model.
+
+   #The assumptions of the test(s): Looks at the association between 2 variables and the data being compared is continuous and normally distributed.
+
+
+#d)
+
+ex2 <- cor.test(ex1$time, ex1$calories,
+                method = "pearson")
+
+print(ex2)
+
+ex3 <- lm(ex1)
+
+summary(ex3)
+
+qqnorm(ex3$residuals, main = "Normal Q-Q Plot")  
+qqline(ex3$residuals, col = "red")
+
+
+plot( x = ex3$fitted, y = ex3$residuals, main = 'Heteroskedasticy plot')
+abline(h = 0, col = 'red')
+
+
+
+```
+
+
+

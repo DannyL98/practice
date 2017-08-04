@@ -1,0 +1,32 @@
+---
+title: "Question 4"
+author: "NDM"
+date: "August 2, 2017"
+output: html_document
+---
+
+```{r question 4, echo=TRUE}
+
+library(devtools)
+
+foo <- rnorm(10000, mean = 60, sd = 3) # final mark
+bar <- rnorm(10000, mean = 68, sd = 5) # project mark
+baz <- rep(seq(from = 1997, to = 2006), each = 1) # years
+
+year <- sample(baz, 150, replace = TRUE,
+               prob = c(0.05, 0.05, 0.08, 0.08, 
+                          0.1, 0.13, 0.14, 0.13, 0.12, 0.12))
+project_mark <- sample(bar, 150, replace = TRUE)
+final_mark <- sample(foo, 150, replace = TRUE)
+
+project_mark
+
+#plot_data <- data_frame(year = year,
+ #                       project_mark = round(project_mark, 1),
+  #                      final_mark = round(final_mark, 1)) 
+   # arrange(year)
+
+plot(project_mark~)
+
+```
+
